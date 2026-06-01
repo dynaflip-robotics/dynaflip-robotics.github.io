@@ -101,18 +101,18 @@
               </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://dynaflip-robotics.github.io/"
+                <a href="https://github.com/JU-SUK/DynaFLIP"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon"><i class="fab fa-github"></i></span>
-                  <span>Code (Coming Soon)</span>
+                  <span>Code</span>
                 </a>
               </span>
               <!-- HuggingFace Link. -->
               <span class="link-block">
-                <a href="https://dynaflip-robotics.github.io/"
+                <a href="https://huggingface.co/jlee-larr/dynaflip-base"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">🤗</span>
-                  <span>Hugging Face (Coming Soon)</span>
+                  <span>Hugging Face</span>
                 </a>
               </span>
             </div>
@@ -1034,6 +1034,45 @@
           <div class="triplet-label">Language</div>
           <p id="detail-language">Select a thumbnail above.</p>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Quick Start: how to load and use the model -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Quick Start</h2>
+      </div>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <p class="is-size-5" style="margin-bottom: 1rem; text-align: center;">
+          Load DynaFLIP from Hugging Face and extract vision features from any image:
+        </p>
+<pre style="border-radius: 8px; padding: 1.25rem; font-size: 0.9rem; overflow-x: auto;"><code>from transformers import AutoModel, AutoProcessor
+from PIL import Image
+import torch
+
+REPO = "jlee-larr/dynaflip-base"
+dynaflip = AutoModel.from_pretrained(REPO, trust_remote_code=True).eval()
+processor = AutoProcessor.from_pretrained(REPO, trust_remote_code=True)
+
+image = Image.open("example.png").convert("RGB")
+inputs = processor(images=image, return_tensors="pt")
+
+with torch.no_grad():
+    v = dynaflip.vision_outputs(inputs["pixel_values"])
+
+# v.last_hidden_state  -> (B, num_patches, 768)   patch tokens
+# v.pooler_output      -> (B, 1536)               CLS + mean(patches)
+</code></pre>
+        <p class="is-size-6" style="margin-top: 0.75rem; color: #64748b; text-align: center;">
+          See the <a href="https://huggingface.co/jlee-larr/dynaflip-base">model card</a> for downstream usage and training details.
+        </p>
       </div>
     </div>
   </div>
