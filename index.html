@@ -1053,23 +1053,9 @@
         <p class="is-size-5" style="margin-bottom: 1rem; text-align: center;">
           Load DynaFLIP from Hugging Face and extract vision features from any image:
         </p>
-<pre style="border-radius: 8px; padding: 1.25rem; font-size: 0.9rem; overflow-x: auto;"><code>from transformers import AutoModel, AutoProcessor
-from PIL import Image
-import torch
-
-REPO = "jlee-larr/dynaflip-base"
-dynaflip = AutoModel.from_pretrained(REPO, trust_remote_code=True).eval()
-processor = AutoProcessor.from_pretrained(REPO, trust_remote_code=True)
-
-image = Image.open("example.png").convert("RGB")
-inputs = processor(images=image, return_tensors="pt")
-
-with torch.no_grad():
-    v = dynaflip.vision_outputs(inputs["pixel_values"])
-
-# v.last_hidden_state  -> (B, num_patches, 768)   patch tokens
-# v.pooler_output      -> (B, 1536)               CLS + mean(patches)
-</code></pre>
+<img src="./static/images/code_snippet.png"
+             alt="Quick Start: load DynaFLIP and extract vision features"
+             style="display: block; max-width: 550px; width: 100%; margin: 0 auto; border-radius: 8px;">
         <p class="is-size-6" style="margin-top: 0.75rem; color: #64748b; text-align: center;">
           See the <a href="https://huggingface.co/jlee-larr/dynaflip-base">model card</a> for downstream usage and training details.
         </p>
